@@ -1,0 +1,31 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+*.suo
+TestResults/
+
+# Node / Next.js / pnpm
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.pnpm-store/
+
+# Entornos y secretos
+.env
+.env.*
+!.env.example
+appsettings.Development.json
+*.pfx
+
+# IDE / sistema operativo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
