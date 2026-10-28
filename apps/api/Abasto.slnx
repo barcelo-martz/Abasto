@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Abasto.Api/Abasto.Api.csproj" />
+    <Project Path="src/Abasto.Application/Abasto.Application.csproj" />
+    <Project Path="src/Abasto.Domain/Abasto.Domain.csproj" />
+    <Project Path="src/Abasto.Infrastructure/Abasto.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Abasto.UnitTests/Abasto.UnitTests.csproj" />
+  </Folder>
+</Solution>
