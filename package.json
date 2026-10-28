@@ -16,9 +16,11 @@
     "api:test": "dotnet test apps/api/Abasto.slnx",
     "api:format": "dotnet format apps/api/Abasto.slnx",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r --if-present typecheck"
   },
   "devDependencies": {
-    "prettier": "^3.9.10"
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2"
   }
 }
