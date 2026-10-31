@@ -17,7 +17,9 @@
     "api:format": "dotnet format apps/api/Abasto.slnx",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "pnpm -r --if-present typecheck"
+    "typecheck": "pnpm -r --if-present typecheck",
+    "web:dev": "pnpm --filter @abasto/web dev",
+    "web:build": "pnpm --filter @abasto/web build"
   },
   "devDependencies": {
     "prettier": "^3.9.10",
