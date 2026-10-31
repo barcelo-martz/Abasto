@@ -29,3 +29,6 @@ appsettings.Development.json
 !.vscode/extensions.json
 .DS_Store
 Thumbs.db
+
+next-env.d.ts
+*.tsbuildinfo

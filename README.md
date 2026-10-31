@@ -127,14 +127,16 @@ pnpm dev                             # API + sitio público + back office
 
 ### Scripts de la raíz
 
-| Script                        | Acción                                            |
-| ----------------------------- | ------------------------------------------------- |
-| `pnpm db:up` / `db:down`      | Inicia / detiene la base de datos                 |
-| `pnpm db:reset`               | Elimina el volumen y recrea la base de datos      |
-| `pnpm api`                    | Ejecuta la API con recarga en caliente            |
-| `pnpm api:build` / `api:test` | Compila / ejecuta las pruebas del backend         |
-| `pnpm web` / `pnpm panel`     | Ejecuta cada aplicación web por separado          |
-| `pnpm dev`                    | Ejecuta API, sitio público y back office a la vez |
+| Script                        | Acción                                             |
+| ----------------------------- | -------------------------------------------------- |
+| `pnpm db:up` / `db:down`      | Inicia / detiene la base de datos                  |
+| `pnpm db:reset`               | Elimina el volumen y recrea la base de datos       |
+| `pnpm api`                    | Ejecuta la API con recarga en caliente             |
+| `pnpm api:build` / `api:test` | Compila / ejecuta las pruebas del backend          |
+| `pnpm web` / `pnpm panel`     | Ejecuta cada aplicación web por separado           |
+| `pnpm dev`                    | Ejecuta API, sitio público y back office a la vez  |
+| `pnpm web:dev`                | Corre el portal ciudadano en http://localhost:3000 |
+| `pnpm web:build`              | Compila el portal para producción                  |
 
 ## Flujo de trabajo
 
