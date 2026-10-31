@@ -1,0 +1,19 @@
+name: Main guard
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  only-from-develop:
+    name: Solo desde develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar rama de origen
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [ "$HEAD_REF" != "develop" ]; then
+            echo "::error::Los PR hacia main solo pueden venir de develop (origen: $HEAD_REF)."
+            exit 1
+          fi

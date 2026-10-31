@@ -1,0 +1,30 @@
+{
+  "name": "abasto",
+  "private": true,
+  "packageManager": "pnpm@12.8.1",
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=12"
+  },
+  "scripts": {
+    "db:up": "docker compose -f infra/docker-compose.yml up -d",
+    "db:down": "docker compose -f infra/docker-compose.yml down",
+    "db:logs": "docker compose -f infra/docker-compose.yml logs -f db",
+    "db:reset": "docker compose -f infra/docker-compose.yml down -v && docker compose -f infra/docker-compose.yml up -d",
+    "api:build": "dotnet build apps/api/Abasto.slnx",
+    "api:dev": "dotnet watch run --project apps/api/src/Abasto.Api",
+    "api:test": "dotnet test apps/api/Abasto.slnx",
+    "api:format": "dotnet format apps/api/Abasto.slnx",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "web:dev": "pnpm --filter @abasto/web dev",
+    "web:build": "pnpm --filter @abasto/web build",
+    "panel:dev": "pnpm --filter @abasto/panel dev",
+    "panel:build": "pnpm --filter @abasto/panel build"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2"
+  }
+}
