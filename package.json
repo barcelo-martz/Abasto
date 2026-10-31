@@ -19,7 +19,9 @@
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r --if-present typecheck",
     "web:dev": "pnpm --filter @abasto/web dev",
-    "web:build": "pnpm --filter @abasto/web build"
+    "web:build": "pnpm --filter @abasto/web build",
+    "panel:dev": "pnpm --filter @abasto/panel dev",
+    "panel:build": "pnpm --filter @abasto/panel build"
   },
   "devDependencies": {
     "prettier": "^3.9.10",
