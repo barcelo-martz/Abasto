@@ -137,6 +137,8 @@ pnpm dev                             # API + sitio público + back office
 | `pnpm dev`                    | Ejecuta API, sitio público y back office a la vez  |
 | `pnpm web:dev`                | Corre el portal ciudadano en http://localhost:3000 |
 | `pnpm web:build`              | Compila el portal para producción                  |
+| `pnpm panel:dev`              | Corre el panel de gestión en http://localhost:3001 |
+| `pnpm panel:build`            | Compila el panel para producción                   |
 
 ## Flujo de trabajo
 
