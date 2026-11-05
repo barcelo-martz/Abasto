@@ -20,8 +20,9 @@ public static class DependencyInjection
             Database = Require("POSTGRES_DB"),
         };
 
-        services.AddDbContext<AbastoDbContext>(options =>
-            options.UseNpgsql(connection.ConnectionString, npgsql => npgsql.UseNetTopologySuite()));
+        services.AddDbContext<AbastoDbContext>(options => options
+            .UseNpgsql(connection.ConnectionString, npgsql => npgsql.UseNetTopologySuite())
+            .UseSnakeCaseNamingConvention());
 
         return services;
     }
