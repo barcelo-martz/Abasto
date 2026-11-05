@@ -43,6 +43,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm web:build
       - run: pnpm web:build
       - run: pnpm panel:build
       # Va después de los builds porque estos generan next-env.d.ts
