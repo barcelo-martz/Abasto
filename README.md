@@ -139,6 +139,7 @@ pnpm dev                             # API + sitio público + back office
 | `pnpm web:build`              | Compila el portal para producción                  |
 | `pnpm panel:dev`              | Corre el panel de gestión en http://localhost:3001 |
 | `pnpm panel:build`            | Compila el panel para producción                   |
+| `pnpm lint`                   | Revisa el código del frontend con ESLint           |
 
 ## Flujo de trabajo
 
