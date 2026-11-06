@@ -6,6 +6,7 @@
     <Project Path="src/Abasto.Infrastructure/Abasto.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Abasto.IntegrationTests/Abasto.IntegrationTests.csproj" />
     <Project Path="tests/Abasto.UnitTests/Abasto.UnitTests.csproj" />
   </Folder>
 </Solution>

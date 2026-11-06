@@ -15,6 +15,28 @@ jobs:
     name: API (.NET)
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: abasto
+          POSTGRES_PASSWORD: abasto_ci
+          POSTGRES_DB: abasto
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U abasto"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      POSTGRES_USER: abasto
+      POSTGRES_PASSWORD: abasto_ci
+      POSTGRES_DB: abasto
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+
     steps:
       - uses: actions/checkout@v4
 

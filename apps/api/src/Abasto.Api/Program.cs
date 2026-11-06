@@ -79,3 +79,4 @@ static void LoadEnvFile()
     }
 }
 
+public partial class Program;
