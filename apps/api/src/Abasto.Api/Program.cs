@@ -8,9 +8,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddProblemDetails();
 
+var corsOrigins = builder.Configuration["CORS_ORIGINS"]
+    ?? (builder.Environment.IsDevelopment()
+        ? "http://localhost:3000,http://localhost:3001"
+        : throw new InvalidOperationException("Falta CORS_ORIGINS. Revisa infra/.env"));
+
+var allowedOrigins = corsOrigins
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+builder.Services.AddCors(options =>
+    options.AddDefaultPolicy(policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod()));
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
+app.UseStatusCodePages();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,6 +35,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseCors();
 
 app.MapGet("/health", async (AbastoDbContext db, CancellationToken ct) =>
 {
@@ -28,8 +48,7 @@ app.MapGet("/health", async (AbastoDbContext db, CancellationToken ct) =>
 .WithName("Health")
 .WithTags("Sistema");
 
-app.UseHttpsRedirection();
-
+var api = app.MapGroup("/api");
 
 app.Run();
 
