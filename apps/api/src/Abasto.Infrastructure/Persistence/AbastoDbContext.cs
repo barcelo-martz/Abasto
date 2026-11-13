@@ -1,4 +1,5 @@
 using Abasto.Domain.Common;
+using Abasto.Infrastructure.Persistence.Conventions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Abasto.Infrastructure.Persistence;
@@ -9,6 +10,7 @@ public class AbastoDbContext(DbContextOptions<AbastoDbContext> options) : DbCont
     {
         modelBuilder.HasPostgresExtension("postgis");
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AbastoDbContext).Assembly);
+        modelBuilder.UseSnakeUpperEnums();
     }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -1,5 +1,7 @@
 using Abasto.Infrastructure;
 using Abasto.Infrastructure.Persistence;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 LoadEnvFile();
 
@@ -9,6 +11,12 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+            options.JsonSerializerOptions.Converters.Add(
+                new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
 var corsOrigins = builder.Configuration["CORS_ORIGINS"]
     ?? (builder.Environment.IsDevelopment()

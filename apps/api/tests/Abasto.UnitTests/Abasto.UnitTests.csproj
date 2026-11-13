@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Abasto.Domain\Abasto.Domain.csproj" />
     <ProjectReference Include="..\..\src\Abasto.Application\Abasto.Application.csproj" />
+    <ProjectReference Include="..\..\src\Abasto.Infrastructure\Abasto.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
