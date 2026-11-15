@@ -32,9 +32,14 @@ public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
         b.Property(x => x.IntentosFallidos).HasDefaultValue(0);
         b.HasIndex(x => x.Correo).IsUnique();
         b.HasIndex(x => x.FarmaciaId).IsUnique().HasFilter("rol = 'PERSONAL_FARMACIA'");
+
         b.HasOne(x => x.Provincia).WithMany().HasForeignKey(x => x.ProvinciaId)
             .OnDelete(DeleteBehavior.Restrict);
         b.HasOne(x => x.Municipio).WithMany().HasForeignKey(x => x.MunicipioId)
+            .OnDelete(DeleteBehavior.Restrict);
+        b.HasOne(x => x.Farmacia).WithMany().HasForeignKey(x => x.FarmaciaId)
+            .OnDelete(DeleteBehavior.Restrict);
+        b.HasOne(x => x.Almacen).WithMany().HasForeignKey(x => x.AlmacenId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }

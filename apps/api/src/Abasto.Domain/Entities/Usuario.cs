@@ -24,4 +24,6 @@ public class Usuario : EntidadBase
 
     public Provincia? Provincia { get; set; }
     public Municipio? Municipio { get; set; }
+    public Farmacia? Farmacia { get; set; }
+    public Almacen? Almacen { get; set; }
 }
