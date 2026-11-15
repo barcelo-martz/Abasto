@@ -22,7 +22,8 @@ public static class DependencyInjection
 
         services.AddDbContext<AbastoDbContext>(options => options
             .UseNpgsql(connection.ConnectionString, npgsql => npgsql.UseNetTopologySuite())
-            .UseSnakeCaseNamingConvention());
+            .UseSnakeCaseNamingConvention()
+            .AddInterceptors(new AuditoriaFechasInterceptor()));
 
         return services;
     }

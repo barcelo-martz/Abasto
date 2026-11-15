@@ -1,4 +1,5 @@
 using Abasto.Domain.Common;
+using Abasto.Domain.Entities;
 using Abasto.Infrastructure.Persistence.Conventions;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,14 @@ namespace Abasto.Infrastructure.Persistence;
 
 public class AbastoDbContext(DbContextOptions<AbastoDbContext> options) : DbContext(options)
 {
+
+    public DbSet<Provincia> Provincias => Set<Provincia>();
+    public DbSet<Municipio> Municipios => Set<Municipio>();
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<TokenUsuario> TokensUsuario => Set<TokenUsuario>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasPostgresExtension("postgis");
