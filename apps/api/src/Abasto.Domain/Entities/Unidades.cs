@@ -11,7 +11,7 @@ public class Farmacia : EntidadBase
     public Guid MunicipioId { get; set; }
     public Guid? AlmacenId { get; set; }
     public string Direccion { get; set; } = null!;
-    public Point Ubicacion { get; set; } = null!; // PostGIS, SRID 4326
+    public Point Ubicacion { get; set; } = null!;
     public string? Telefono { get; set; }
     public TipoPropiedadFarmacia TipoPropiedad { get; set; }
     public EstadoUnidad Estado { get; set; }
@@ -22,7 +22,7 @@ public class Farmacia : EntidadBase
     public ICollection<HorarioFarmacia> Horarios { get; set; } = [];
 }
 
-public class HorarioFarmacia : EntidadInmutable // sin actualizadoEn, según el modelo
+public class HorarioFarmacia : EntidadInmutable
 {
     public Guid FarmaciaId { get; set; }
     public DiaSemana DiaSemana { get; set; }

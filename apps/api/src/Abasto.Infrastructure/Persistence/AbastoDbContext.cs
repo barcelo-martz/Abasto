@@ -27,6 +27,29 @@ public class AbastoDbContext(DbContextOptions<AbastoDbContext> options) : DbCont
     public DbSet<MovimientoInventario> MovimientosInventario => Set<MovimientoInventario>();
     public DbSet<ImportacionInventario> ImportacionesInventario => Set<ImportacionInventario>();
     public DbSet<ParametroSistema> ParametrosSistema => Set<ParametroSistema>();
+    public DbSet<CicloAbastecimiento> CiclosAbastecimiento => Set<CicloAbastecimiento>();
+    public DbSet<Distribucion> Distribuciones => Set<Distribucion>();
+    public DbSet<DistribucionDetalle> DistribucionesDetalle => Set<DistribucionDetalle>();
+    public DbSet<Traslado> Traslados => Set<Traslado>();
+    public DbSet<TrasladoDetalle> TrasladosDetalle => Set<TrasladoDetalle>();
+    public DbSet<RemisionCronica> RemisionesCronicas => Set<RemisionCronica>();
+    public DbSet<ListaMedicamentos> ListasMedicamentos => Set<ListaMedicamentos>();
+    public DbSet<ListaMedicamentosItem> ListasMedicamentosItems => Set<ListaMedicamentosItem>();
+    public DbSet<LecturaReceta> LecturasReceta => Set<LecturaReceta>();
+    public DbSet<LecturaRecetaItem> LecturasRecetaItems => Set<LecturaRecetaItem>();
+    public DbSet<SuscripcionAlerta> SuscripcionesAlerta => Set<SuscripcionAlerta>();
+    public DbSet<Notificacion> Notificaciones => Set<Notificacion>();
+    public DbSet<MensajeContacto> MensajesContacto => Set<MensajeContacto>();
+    public DbSet<PlanRecorrido> PlanesRecorrido => Set<PlanRecorrido>();
+    public DbSet<PlanRecorridoParada> PlanesRecorridoParadas => Set<PlanRecorridoParada>();
+    public DbSet<Favorito> Favoritos => Set<Favorito>();
+    public DbSet<Recordatorio> Recordatorios => Set<Recordatorio>();
+    public DbSet<AlternativaProducto> AlternativasProducto => Set<AlternativaProducto>();
+    public DbSet<BusquedaRegistro> BusquedasRegistro => Set<BusquedaRegistro>();
+    public DbSet<PrediccionDisponibilidad> PrediccionesDisponibilidad => Set<PrediccionDisponibilidad>();
+    public DbSet<AlertaTemprana> AlertasTempranas => Set<AlertaTemprana>();
+    public DbSet<Anomalia> Anomalias => Set<Anomalia>();
+    public DbSet<OperacionSync> OperacionesSync => Set<OperacionSync>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
