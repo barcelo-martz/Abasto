@@ -1,4 +1,8 @@
+using Abasto.Api.Extensions;
+using Abasto.Api.Middleware;
+using Abasto.Application;
 using Abasto.Infrastructure;
+using Abasto.Infrastructure.Identity;
 using Abasto.Infrastructure.Persistence;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -8,15 +12,20 @@ LoadEnvFile();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddAplicacion();
+builder.Services.AddIdentidad();
+builder.Services.AddAutenticacionJwt(builder.Configuration);
 builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<ManejadorExcepciones>();
 
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
             options.JsonSerializerOptions.Converters.Add(
                 new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var corsOrigins = builder.Configuration["CORS_ORIGINS"]
     ?? (builder.Environment.IsDevelopment()
@@ -47,6 +56,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapGet("/health", async (AbastoDbContext db, CancellationToken ct) =>
 {
     var dbUp = await db.Database.CanConnectAsync(ct);
@@ -54,7 +66,15 @@ app.MapGet("/health", async (AbastoDbContext db, CancellationToken ct) =>
     return dbUp ? Results.Ok(body) : Results.Json(body, statusCode: 503);
 })
 .WithName("Health")
-.WithTags("Sistema");
+.WithTags("System");
+
+app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    try { await scope.ServiceProvider.GetRequiredService<AdminSeeder>().EjecutarAsync(); }
+    catch (Exception ex) { app.Logger.LogWarning(ex, "No se pudo crear el administrador inicial."); }
+}
 
 var api = app.MapGroup("/api");
 
