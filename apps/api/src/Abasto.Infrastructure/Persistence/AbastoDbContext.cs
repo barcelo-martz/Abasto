@@ -1,3 +1,4 @@
+using Abasto.Application.Common.Abstractions;
 using Abasto.Domain.Common;
 using Abasto.Domain.Entities;
 using Abasto.Infrastructure.Persistence.Conventions;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Abasto.Infrastructure.Persistence;
 
-public class AbastoDbContext(DbContextOptions<AbastoDbContext> options) : DbContext(options)
+public class AbastoDbContext(DbContextOptions<AbastoDbContext> options) : DbContext(options), IAbastoDbContext
 {
 
     public DbSet<Provincia> Provincias => Set<Provincia>();

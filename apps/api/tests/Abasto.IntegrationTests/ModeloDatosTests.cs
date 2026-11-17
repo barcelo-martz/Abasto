@@ -11,6 +11,8 @@ public class BaseDatosFixture : IAsyncLifetime
 {
     private static readonly Lazy<string> Conexion = new(ObtenerConexion);
 
+    private static readonly Lazy<Task> Migracion = new(MigrarAsync);
+
     private static string ObtenerConexion()
     {
         var directa = Environment.GetEnvironmentVariable("ABASTO_TEST_DB");
@@ -34,24 +36,28 @@ public class BaseDatosFixture : IAsyncLifetime
                 $"Username={Valor("POSTGRES_USER", "postgres")};Password={Valor("POSTGRES_PASSWORD", "postgres")}";
     }
 
-    public AbastoDbContext CrearContexto() => new(
-        new DbContextOptionsBuilder<AbastoDbContext>()
-            .UseNpgsql(Conexion.Value, o => o.UseNetTopologySuite())
-            .UseSnakeCaseNamingConvention()
-            .AddInterceptors(new AuditoriaFechasInterceptor())
-            .Options);
+    public static AbastoDbContext Crear() => new(
+    new DbContextOptionsBuilder<AbastoDbContext>()
+        .UseNpgsql(Conexion.Value, o => o.UseNetTopologySuite())
+        .UseSnakeCaseNamingConvention()
+        .AddInterceptors(new AuditoriaFechasInterceptor())
+        .Options);
 
+    public AbastoDbContext CrearContexto() => Crear();
 
-    public async Task InitializeAsync()
-    {
-        await using var db = CrearContexto();
-        await db.Database.MigrateAsync();
-    }
+    private static async Task MigrarAsync()
+{
+    await using var db = Crear();
+    await db.Database.MigrateAsync();
+}
+
+    public Task InitializeAsync() => Migracion.Value;
 
     public Task DisposeAsync() => Task.CompletedTask;
 }
 
-public class ModeloDatosTests(BaseDatosFixture bd) : IClassFixture<BaseDatosFixture>
+[Collection(BaseDatosColeccion.Nombre)]
+public class ModeloDatosTests(BaseDatosFixture bd)
 {
     private static string Sufijo() => Guid.NewGuid().ToString("N")[..8];
 
