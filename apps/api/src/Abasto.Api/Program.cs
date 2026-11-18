@@ -4,6 +4,7 @@ using Abasto.Application;
 using Abasto.Infrastructure;
 using Abasto.Infrastructure.Identity;
 using Abasto.Infrastructure.Persistence;
+using Microsoft.OpenApi;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,7 +26,20 @@ builder.Services
                 new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c=>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "Pega solo el access token, sin la palabra Bearer.",
+    });
+    c.AddSecurityRequirement(documento => new OpenApiSecurityRequirement
+    {
+        [new OpenApiSecuritySchemeReference("Bearer", documento)] = [],
+    });
+});
 
 var corsOrigins = builder.Configuration["CORS_ORIGINS"]
     ?? (builder.Environment.IsDevelopment()

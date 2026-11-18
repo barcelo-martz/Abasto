@@ -12,5 +12,7 @@ public interface IAbastoDbContext
     DbSet<TokenUsuario> TokensUsuario { get; }
     DbSet<AuditLog> AuditLogs { get; }
     DbSet<ParametroSistema> ParametrosSistema { get; }
+    DbSet<Farmacia> Farmacias { get; }
+    DbSet<Almacen> Almacenes { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,5 @@
 using Abasto.Application.Common.Behaviors;
+using Abasto.Application.Common.Security;
 using Abasto.Application.Features.Auth;
 using FluentValidation;
 using MediatR;
@@ -18,6 +19,7 @@ public static class DependencyInjection
         });
         services.AddValidatorsFromAssembly(ensamblado);
         services.AddScoped<EmisorSesion>();
+        services.AddScoped<AlcanceService>();
         return services;
     }
 }
