@@ -46,10 +46,10 @@ public class BaseDatosFixture : IAsyncLifetime
     public AbastoDbContext CrearContexto() => Crear();
 
     private static async Task MigrarAsync()
-{
-    await using var db = Crear();
-    await db.Database.MigrateAsync();
-}
+    {
+        await using var db = Crear();
+        await db.Database.MigrateAsync();
+    }
 
     public Task InitializeAsync() => Migracion.Value;
 

@@ -1,4 +1,7 @@
 using System.Text;
+using Abasto.Api.Authorization;
+using Abasto.Api.Services;
+using Abasto.Application.Common.Abstractions;
 using Abasto.Infrastructure.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
@@ -35,7 +38,9 @@ public static class AutenticacionExtensions
                     RoleClaimType = "rol",
                 };
             });
-        services.AddAuthorization();
+        services.AddAuthorization(Politicas.Registrar);
+        services.AddHttpContextAccessor();
+        services.AddScoped<ICurrentUser, UsuarioActual>();
         return services;
     }
 }
