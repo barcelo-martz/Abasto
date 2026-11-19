@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: "Abasto · Panel",
   description: "Panel de gestión de Abasto",
   robots: { index: false, follow: false },
+  icons: {
+    icon: "/images/brand/isotipo-fondo.png",
+    apple: "/images/brand/isotipo-fondo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

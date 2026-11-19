@@ -1,0 +1,15 @@
+export const RUTAS = {
+  inicio: "/",
+  buscar: "/buscar",
+  farmacia: (id: string) => `/farmacias/${id}`,
+  guia: "/guia",
+  guiaDetalle: (id: string) => `/guia/${id}`,
+  receta: "/receta",
+  recorrido: "/recorrido",
+  etiquetas: "/etiquetas",
+  contacto: "/contacto",
+  login: "/login",
+  registro: "/registro",
+  recuperar: "/recuperar",
+  cuenta: "/cuenta",
+} as const;

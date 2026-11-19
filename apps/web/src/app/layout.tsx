@@ -13,6 +13,10 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "Abasto",
   description: "Disponibilidad de medicamentos en la red de farmacias",
+  icons: {
+    icon: "/images/brand/isotipo-fondo.png",
+    apple: "/images/brand/isotipo-fondo.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

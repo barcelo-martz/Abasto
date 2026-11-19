@@ -23,7 +23,8 @@
     "panel:dev": "pnpm --filter @abasto/panel dev",
     "panel:build": "pnpm --filter @abasto/panel build",
     "lint": "eslint . --max-warnings 0",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "brand:sync": "node scripts/sync-brand-assets.mjs"
   },
   "devDependencies": {
     "eslint": "^9.39.5",
