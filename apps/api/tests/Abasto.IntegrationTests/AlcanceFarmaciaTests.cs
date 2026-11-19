@@ -148,8 +148,12 @@ public class AlcanceFarmaciaTests(BaseDatosFixture bd)
         {
             var adminReal = new Usuario
             {
-                Correo = $"admin-{s}@abasto.cu", ContrasenaHash = "x", Nombres = "Admin", Apellidos = "Prueba",
-                Rol = RolUsuario.Administrador, Estado = EstadoUsuario.Activo,
+                Correo = $"admin-{s}@abasto.cu",
+                ContrasenaHash = "x",
+                Nombres = "Admin",
+                Apellidos = "Prueba",
+                Rol = RolUsuario.Administrador,
+                Estado = EstadoUsuario.Activo,
             };
             db.Usuarios.Add(adminReal);
             await db.SaveChangesAsync();
