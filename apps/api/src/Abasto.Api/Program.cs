@@ -26,7 +26,7 @@ builder.Services
                 new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseUpper)));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>
+builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {

@@ -16,3 +16,4 @@ public sealed class ConflictoException(string mensaje) : AplicacionException(men
 public sealed class NoAutorizadoException(string mensaje) : AplicacionException(mensaje, 401, "No autorizado");
 public sealed class ProhibidoException(string mensaje) : AplicacionException(mensaje, 403, "Acceso denegado");
 public sealed class CuentaBloqueadaException(string mensaje) : AplicacionException(mensaje, 423, "Cuenta bloqueada");
+public sealed class NoEncontradoException(string mensaje) : AplicacionException(mensaje, 404, "No encontrado");
