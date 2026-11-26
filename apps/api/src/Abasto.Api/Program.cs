@@ -7,6 +7,7 @@ using Abasto.Infrastructure.Persistence;
 using Microsoft.OpenApi;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Abasto.Infrastructure.Persistence.Seed;
 
 LoadEnvFile();
 
@@ -88,6 +89,13 @@ using (var scope = app.Services.CreateScope())
 {
     try { await scope.ServiceProvider.GetRequiredService<AdminSeeder>().EjecutarAsync(); }
     catch (Exception ex) { app.Logger.LogWarning(ex, "No se pudo crear el administrador inicial."); }
+}
+
+if (app.Environment.IsDevelopment() && app.Configuration.GetValue<bool>("Seed:Desarrollo"))
+{
+    using var scope = app.Services.CreateScope();
+    try { await scope.ServiceProvider.GetRequiredService<DatosDesarrolloSeeder>().EjecutarAsync(); }
+    catch (Exception ex) { app.Logger.LogWarning(ex, "No se pudieron crear los datos de desarrollo."); }
 }
 
 var api = app.MapGroup("/api");
