@@ -125,8 +125,15 @@ export function UserMenu({
             </div>
           )}
           <div className="p-2">
-            <Button variant="danger-soft" fullWidth leadingIcon="logout" onClick={onSignOut}>
-              Cerrar sesión
+            <Button
+              variant="danger-soft"
+              size="sm"
+              className="ml-auto flex h-10 w-10 px-0"
+              onClick={onSignOut}
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <Icon name="logout" size={20} />
             </Button>
           </div>
         </Popover.Content>
