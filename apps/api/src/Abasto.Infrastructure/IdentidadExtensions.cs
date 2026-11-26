@@ -1,6 +1,7 @@
 using Abasto.Application.Common.Abstractions;
 using Abasto.Infrastructure.Identity;
 using Abasto.Infrastructure.Persistence;
+using Abasto.Infrastructure.Persistence.Seed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -16,6 +17,7 @@ public static class IdentidadExtensions
         services.AddSingleton<ITokenService, JwtTokenService>();
         services.AddSingleton<IEmailSender, CorreoDesarrollo>();
         services.AddScoped<AdminSeeder>();
+        services.AddScoped<DatosDesarrolloSeeder>();
         return services;
     }
 }
