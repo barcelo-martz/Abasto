@@ -13,4 +13,12 @@ public sealed class CorreoDesarrollo(ILogger<CorreoDesarrollo> logger, IConfigur
             correo, web, token);
         return Task.CompletedTask;
     }
+
+    public Task EnviarRecuperacionContrasenaAsync(string correo, string nombre, string token, CancellationToken ct)
+    {
+        var web = config["Frontend:WebUrl"] ?? "http://localhost:3000";
+        logger.LogInformation("Recuperación de contraseña para {Correo}: {Web}/restablecer?token={Token}",
+            correo, web, token);
+        return Task.CompletedTask;
+    }
 }
