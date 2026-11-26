@@ -10,6 +10,11 @@ export const RUTAS = {
   contacto: "/contacto",
   login: "/login",
   registro: "/registro",
+  verificarCorreo: "/verificar-correo",
   recuperar: "/recuperar",
+  restablecer: "/restablecer",
   cuenta: "/cuenta",
+  medicamentos: "/medicamentos",
+  farmacias: "/farmacias",
+  favoritos: "/favoritos",
 } as const;

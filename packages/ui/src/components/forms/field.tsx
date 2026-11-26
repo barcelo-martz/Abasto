@@ -16,6 +16,7 @@ export const useFieldContext = () => useContext(Ctx);
 
 export interface FieldProps {
   label?: ReactNode;
+  labelClassName?: string;
   hint?: ReactNode;
   error?: ReactNode;
   required?: boolean;
@@ -28,6 +29,7 @@ export interface FieldProps {
 
 export function Field({
   label,
+  labelClassName,
   hint,
   error,
   required,
@@ -48,7 +50,10 @@ export function Field({
         {(label || labelAside) && (
           <label
             htmlFor={id}
-            className="mb-1.5 flex items-center justify-between font-label-md text-label-md text-on-surface"
+            className={cn(
+              "mb-1.5 flex items-center justify-between font-label-md text-label-md text-on-surface",
+              labelClassName,
+            )}
           >
             <span>
               {label}
