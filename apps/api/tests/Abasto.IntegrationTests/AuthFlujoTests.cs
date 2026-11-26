@@ -7,6 +7,7 @@ using Abasto.Domain.Enums;
 using Abasto.Infrastructure.Identity;
 using Abasto.Infrastructure.Persistence;
 using Abasto.Infrastructure.Persistence.Seed;
+using FluentValidation;
 using Microsoft.Extensions.Options;
 
 namespace Abasto.IntegrationTests;
@@ -14,10 +15,18 @@ namespace Abasto.IntegrationTests;
 internal sealed class CorreoFalso : IEmailSender
 {
     public string? UltimoToken { get; private set; }
+    public string? UltimoTokenRecuperacion { get; private set; }
 
     public Task EnviarVerificacionCorreoAsync(string correo, string nombre, string token, CancellationToken ct)
     {
         UltimoToken = token;
+        return Task.CompletedTask;
+    }
+
+    public Task EnviarRecuperacionContrasenaAsync(
+        string correo, string nombre, string token, CancellationToken ct)
+    {
+        UltimoTokenRecuperacion = token;
         return Task.CompletedTask;
     }
 }
@@ -37,6 +46,14 @@ internal sealed class Escenario(AbastoDbContext db, CorreoFalso correo)
 
     public Task Verificar(string token) =>
         new VerificarCorreoHandler(db, _tokens, TimeProvider.System).Handle(new VerificarCorreoCommand(token), default);
+
+    public Task SolicitarRecuperacion(string email) =>
+        new SolicitarRecuperacionContrasenaHandler(db, _tokens, correo, TimeProvider.System)
+            .Handle(new SolicitarRecuperacionContrasenaCommand(email), default);
+
+    public Task Restablecer(string token, string clave) =>
+        new RestablecerContrasenaHandler(db, _tokens, _hasher, TimeProvider.System)
+            .Handle(new RestablecerContrasenaCommand(token, clave), default);
 
     public Task<AuthRespuesta> Login(string email, string clave) =>
         new LoginHandler(db, _hasher, Sesion, TimeProvider.System)
@@ -132,5 +149,33 @@ public class AuthFlujoTests(BaseDatosFixture bd)
 
         await Ejecutar(correo, e => e.Registrar(email, Clave));
         await Assert.ThrowsAsync<ConflictoException>(() => Ejecutar(correo, e => e.Registrar(email, Clave)));
+    }
+
+    [Fact]
+    public async Task Recuperacion_actualiza_contrasena_y_el_token_es_de_un_solo_uso()
+    {
+        var (email, correo) = await RegistrarYVerificar();
+        const string nuevaClave = "NuevaClave567";
+        var sesionAnterior = await Obtener(correo, e => e.Login(email, Clave));
+
+        await Ejecutar(correo, e => e.SolicitarRecuperacion(email));
+        Assert.NotNull(correo.UltimoTokenRecuperacion);
+        await Ejecutar(correo, e => e.Restablecer(correo.UltimoTokenRecuperacion!, nuevaClave));
+        await Assert.ThrowsAsync<ValidationException>(() =>
+            Ejecutar(correo, e => e.Restablecer(correo.UltimoTokenRecuperacion!, "OtraClave789")));
+        await Assert.ThrowsAsync<NoAutorizadoException>(() =>
+            Obtener(correo, e => e.Refrescar(sesionAnterior.RefreshToken)));
+
+        var sesion = await Obtener(correo, e => e.Login(email, nuevaClave));
+        Assert.Equal(RolUsuario.Ciudadano, sesion.Usuario.Rol);
+    }
+
+    [Fact]
+    public async Task Solicitar_recuperacion_no_revela_si_el_correo_existe()
+    {
+        var correo = new CorreoFalso();
+        await Ejecutar(correo, e => e.SolicitarRecuperacion(NuevoCorreo()));
+
+        Assert.Null(correo.UltimoTokenRecuperacion);
     }
 }

@@ -33,6 +33,24 @@ public class AuthController(ISender mediador) : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("password-recovery")]
+    public async Task<IActionResult> SolicitarRecuperacion(
+        [FromBody] SolicitarRecuperacionRequest solicitud, CancellationToken ct)
+    {
+        await mediador.Send(new SolicitarRecuperacionContrasenaCommand(solicitud.Correo), ct);
+        return NoContent();
+    }
+
+    [AllowAnonymous]
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> RestablecerContrasena(
+        [FromBody] RestablecerContrasenaRequest solicitud, CancellationToken ct)
+    {
+        await mediador.Send(new RestablecerContrasenaCommand(solicitud.Token, solicitud.Contrasena), ct);
+        return NoContent();
+    }
+
+    [AllowAnonymous]
     [HttpPost("login")]
     [ProducesResponseType<AuthRespuesta>(StatusCodes.Status200OK)]
     public async Task<IActionResult> Login([FromBody] LoginRequest solicitud, CancellationToken ct) =>
@@ -51,6 +69,9 @@ public class AuthController(ISender mediador) : ControllerBase
         await mediador.Send(new CerrarSesionCommand(solicitud.RefreshToken), ct);
         return NoContent();
     }
+
+    public sealed record SolicitarRecuperacionRequest(string Correo);
+    public sealed record RestablecerContrasenaRequest(string Token, string Contrasena);
 
     [Authorize]
     [HttpGet("me")]

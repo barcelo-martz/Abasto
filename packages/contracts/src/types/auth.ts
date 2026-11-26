@@ -16,6 +16,15 @@ export interface VerificarCorreoRequest {
   token: string;
 }
 
+export interface SolicitarRecuperacionRequest {
+  correo: string;
+}
+
+export interface RestablecerContrasenaRequest {
+  token: string;
+  contrasena: string;
+}
+
 export interface RefreshRequest {
   refreshToken: string;
 }

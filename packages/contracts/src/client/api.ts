@@ -17,6 +17,8 @@ import type {
   LoginRequest,
   RefreshRequest,
   RegistroRequest,
+  RestablecerContrasenaRequest,
+  SolicitarRecuperacionRequest,
   VerificarCorreoRequest,
 } from "../types";
 import type { ClienteHttp, OpcionesBasicas } from "./http";
@@ -34,6 +36,10 @@ export function crearApi(http: ClienteHttp) {
         }),
       verificarCorreo: (datos: VerificarCorreoRequest, o?: OpcionesBasicas) =>
         http.post<void>("/api/auth/verify-email", datos, { ...o, ...sinSesion }),
+      solicitarRecuperacion: (datos: SolicitarRecuperacionRequest, o?: OpcionesBasicas) =>
+        http.post<void>("/api/auth/password-recovery", datos, { ...o, ...sinSesion }),
+      restablecerContrasena: (datos: RestablecerContrasenaRequest, o?: OpcionesBasicas) =>
+        http.post<void>("/api/auth/reset-password", datos, { ...o, ...sinSesion }),
       login: (datos: LoginRequest, o?: OpcionesBasicas) =>
         http.post<AuthRespuesta>("/api/auth/login", datos, {
           ...o,
