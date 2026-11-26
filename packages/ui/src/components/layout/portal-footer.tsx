@@ -1,6 +1,6 @@
 import type { ElementType } from "react";
 import { cn } from "../../lib/cn";
-import { Icon } from "../icon";
+import { Logo } from "../brand";
 import { AppLink } from "../navigation/link";
 
 export interface FooterColumn {
@@ -20,7 +20,7 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
   {
     title: "Marco normativo",
     links: [
-      { label: "Resolución Ministerial 23/2023", href: "#" },
+      { label: "Resolución Ministerial 23/2023", href: "" },
       { label: "Control de Suministros CECMED", href: "#" },
       { label: "Reglamento Farmacéutico Nacional", href: "#" },
     ],
@@ -48,9 +48,7 @@ export function PortalFooter({
       <div className="mx-auto max-w-7xl px-margin-mobile md:px-margin lg:px-margin-desktop">
         <div className="grid gap-space-xl md:grid-cols-[1.4fr_repeat(2,1fr)]">
           <div className="flex items-start gap-space-md">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-container text-on-primary">
-              <Icon name="local_pharmacy" size={20} />
-            </span>
+            <Logo withWordmark={false} />
             <div>
               <p className="font-headline-sm text-headline-sm text-primary">
                 Abasto · Infraestructura Digital de Salud

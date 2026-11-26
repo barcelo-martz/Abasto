@@ -1,3 +1,4 @@
+import { Providers } from "@/lib/providers";
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
@@ -11,7 +12,7 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Abasto",
+  title: { default: "Abasto", template: "%s | Abasto" },
   description: "Disponibilidad de medicamentos en la red de farmacias",
   icons: {
     icon: "/images/brand/isotipo-fondo.png",
@@ -31,7 +32,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0..200&display=optional"
         />
       </head>
-      <body className="bg-surface font-sans text-on-surface antialiased">{children}</body>
+      <body className="min-h-screen font-sans antialiased">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

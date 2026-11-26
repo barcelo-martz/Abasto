@@ -1,9 +1,8 @@
 "use client";
-import { useEffect, useState, type ElementType, type ReactNode } from "react";
+import { useEffect, useId, useState, type ElementType, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import { Icon } from "../icon";
 import { Logo } from "../brand/logo";
-import { LivePulse } from "../badge/live-pulse";
+import { Icon } from "../icon";
 import { AppLink } from "../navigation/link";
 
 export interface PortalNavItem {
@@ -14,6 +13,8 @@ export interface PortalNavItem {
 
 export interface PortalHeaderProps {
   items: PortalNavItem[];
+  /** Ruta a la que dirige el logo. */
+  logoHref?: string;
   /** over-hero: translúcido oscuro sobre el hero · scrolled: blanco sólido · auto: cambia con el scroll. */
   variant?: "over-hero" | "scrolled" | "auto";
   /** Px de scroll a partir del cual pasa a "scrolled" en modo auto. */
@@ -25,6 +26,7 @@ export interface PortalHeaderProps {
   /** Usuario autenticado (<UserMenu/>) o botones de acceso. */
   account?: (tone: "light" | "dark") => ReactNode;
   onSearchClick?: () => void;
+  onSearchSubmit?: (query: string) => void;
   showLive?: boolean;
   /** Menú móvil. */
   onMenuClick?: () => void;
@@ -34,18 +36,21 @@ export interface PortalHeaderProps {
 
 export function PortalHeader({
   items,
+  logoHref = "/",
   variant = "auto",
   threshold = 24,
   territory,
   notifications,
   account,
   onSearchClick,
-  showLive = true,
+  onSearchSubmit,
   onMenuClick,
   linkComponent,
   className,
 }: PortalHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchId = useId();
   useEffect(() => {
     if (variant !== "auto") return;
     const on = () => setScrolled(window.scrollY > threshold);
@@ -69,7 +74,14 @@ export function PortalHeader({
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-space-md px-margin-mobile md:px-margin lg:px-margin-desktop">
         <div className="flex items-center gap-space-md">
-          <Logo variant={solid ? "color" : "glass"} size={32} />
+          <AppLink
+            linkComponent={linkComponent}
+            href={logoHref}
+            aria-label="Ir al inicio"
+            className="rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          >
+            <Logo variant={solid ? "color" : "glass"} size={32} />
+          </AppLink>
           {territory?.(tone)}
         </div>
         <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
@@ -95,22 +107,43 @@ export function PortalHeader({
           ))}
         </nav>
         <div className="flex items-center gap-space-xs">
-          {showLive && (
-            <div className="hidden xl:block">
-              <LivePulse label="Red en línea" />
-            </div>
-          )}
-          <button
-            type="button"
-            onClick={onSearchClick}
-            aria-label="Buscar (⌘K)"
+          <form
+            role="search"
+            onSubmit={(event) => {
+              event.preventDefault();
+              const query = searchQuery.trim();
+              if (!query) {
+                onSearchClick?.();
+                return;
+              }
+              onSearchSubmit?.(query);
+            }}
             className={cn(
-              "hidden h-9 items-center gap-2 rounded-full px-3 font-label-sm text-label-sm sm:flex",
+              "group flex h-9 w-9 items-center rounded-full transition-[width,background-color] duration-200",
+              "focus-within:w-52 hover:w-52",
               solid ? "bg-surface-container text-on-surface-variant" : "bg-white/10 text-white/80",
             )}
           >
-            <Icon name="search" size={18} /> <kbd>⌘K</kbd>
-          </button>
+            <label
+              htmlFor={searchId}
+              className="flex h-9 min-w-9 cursor-pointer items-center justify-center"
+              aria-label="Buscar"
+            >
+              <Icon name="search" size={18} />
+            </label>
+            <input
+              id={searchId}
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Buscar medicamento"
+              aria-label="Buscar medicamento"
+              className="h-9 w-0 min-w-0 flex-1 bg-transparent pr-0 text-sm opacity-0 outline-none transition-[width,opacity,padding] duration-200 placeholder:text-inherit placeholder:opacity-70 group-hover:w-40 group-hover:pr-3 group-hover:opacity-100 group-focus-within:w-40 group-focus-within:pr-3 group-focus-within:opacity-100"
+            />
+            <button type="submit" className="sr-only">
+              Buscar
+            </button>
+          </form>
           {notifications?.(tone)}
           {account?.(tone)}
           {onMenuClick && (

@@ -1,10 +1,10 @@
 "use client";
 import { Select as S } from "radix-ui";
-import type { ReactNode } from "react";
+import type { FocusEventHandler, ReactNode, Ref } from "react";
 import { cn } from "../../lib/cn";
 import { Icon } from "../icon";
-import { fieldShell, type FieldState } from "./input";
 import { useFieldContext } from "./field";
+import { fieldShell, type FieldState } from "./input";
 
 export interface SelectOption {
   value: string;
@@ -24,6 +24,8 @@ export interface SelectProps {
   disabled?: boolean;
   id?: string;
   name?: string;
+  onBlur?: FocusEventHandler<HTMLButtonElement>;
+  ref?: Ref<HTMLButtonElement>;
   className?: string;
 }
 
@@ -33,6 +35,8 @@ export function Select({
   state,
   disabled,
   id,
+  onBlur,
+  ref,
   className,
   ...root
 }: SelectProps) {
@@ -42,7 +46,9 @@ export function Select({
   return (
     <S.Root disabled={dis} {...root}>
       <S.Trigger
+        ref={ref}
         id={id ?? f?.id}
+        onBlur={onBlur}
         aria-describedby={f?.describedBy}
         aria-invalid={st === "error" || undefined}
         className={cn(
@@ -60,7 +66,7 @@ export function Select({
         <S.Content
           position="popper"
           sideOffset={6}
-          className="z-popover max-h-72 w-[var(--radix-select-trigger-width)] animate-fade-in overflow-hidden rounded-2xl bg-surface-container-lowest p-1.5 shadow-overlay"
+          className="z-[100] max-h-72 w-[var(--radix-select-trigger-width)] animate-fade-in overflow-hidden rounded-2xl bg-surface-container-lowest p-1.5 shadow-overlay"
         >
           <S.Viewport>
             {options.map((o) => (
