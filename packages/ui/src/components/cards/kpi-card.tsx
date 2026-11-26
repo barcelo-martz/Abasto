@@ -1,8 +1,8 @@
 import type { HTMLAttributes, ReactNode, Ref } from "react";
 import { cn } from "../../lib/cn";
-import { Icon } from "../icon";
-import { Sparkline } from "../data/sparkline";
 import type { ChartTone } from "../data/chart-utils";
+import { Sparkline } from "../data/sparkline";
+import { Icon } from "../icon";
 
 export interface KpiCardProps extends Omit<HTMLAttributes<HTMLElement>, "children"> {
   label: string;
@@ -55,7 +55,7 @@ export function KpiCard({
       </header>
       <div className="flex items-end justify-between gap-space-sm">
         <div className="flex min-w-0 flex-col">
-          <p className="tabular flex items-baseline gap-1 font-headline-lg text-headline-lg text-primary">
+          <p className="flex-col tabular flex items-baseline gap-1 font-headline-lg text-headline-lg text-primary">
             {value}
             {unit && (
               <span className="font-label-md text-label-md text-on-surface-variant">{unit}</span>

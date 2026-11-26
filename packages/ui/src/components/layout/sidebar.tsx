@@ -1,8 +1,8 @@
 "use client";
 import { useState, type ElementType, type ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import { Icon } from "../icon";
 import { Logo } from "../brand/logo";
+import { Icon } from "../icon";
 import { AppLink } from "../navigation/link";
 
 export interface SidebarItem {

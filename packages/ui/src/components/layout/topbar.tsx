@@ -1,10 +1,15 @@
 import type { ElementType, ReactNode } from "react";
 import { cn } from "../../lib/cn";
-import { Icon } from "../icon";
-import { IconButton } from "../button";
-import { SyncChip } from "../badge/sync-chip";
 import type { SyncChipProps } from "../badge/indicators";
+import { SyncChip } from "../badge/sync-chip";
+import { IconButton } from "../button";
+import { Icon } from "../icon";
 import { Breadcrumbs, type Crumb } from "../navigation/breadcrumbs";
+
+interface Enlace {
+  href: string;
+  texto: string;
+}
 
 export interface TopbarProps {
   breadcrumbs?: Crumb[];
@@ -19,11 +24,16 @@ export interface TopbarProps {
   /** Acciones rápidas a la derecha (usuario, etc.). */
   actions?: ReactNode;
   onMenuClick?: () => void;
+
+  /** Componente utilizado para renderizar los enlaces. */
   linkComponent?: ElementType;
+
+  /** Enlaces de navegación. */
+  enlaces?: Enlace[];
+
   className?: string;
 }
 
-/** Barra superior institucional con efecto vidrio. */
 export function Topbar({
   breadcrumbs,
   context,
@@ -34,8 +44,11 @@ export function Topbar({
   actions,
   onMenuClick,
   linkComponent,
+  enlaces,
   className,
 }: TopbarProps) {
+  const LinkComponent = linkComponent ?? "a";
+
   return (
     <header
       className={cn(
@@ -52,6 +65,7 @@ export function Topbar({
           className="lg:hidden"
         />
       )}
+
       <div className="flex min-w-0 items-center gap-space-md">
         {breadcrumbs && (
           <Breadcrumbs
@@ -60,8 +74,24 @@ export function Topbar({
             className="hidden md:flex"
           />
         )}
+
         {context}
       </div>
+
+      {enlaces && enlaces.length > 0 && (
+        <nav className="hidden items-center gap-4 md:flex">
+          {enlaces.map((enlace) => (
+            <LinkComponent
+              key={enlace.href}
+              href={enlace.href}
+              className="text-sm text-on-surface-variant transition-colors hover:text-on-surface"
+            >
+              {enlace.texto}
+            </LinkComponent>
+          ))}
+        </nav>
+      )}
+
       <button
         type="button"
         onClick={onSearchClick}
@@ -71,10 +101,8 @@ export function Topbar({
         <span className="flex-1 truncate text-left font-body-sm text-body-sm">
           {searchPlaceholder}
         </span>
-        <kbd className="rounded-md bg-surface-container px-1.5 py-0.5 font-label-sm text-[11px] text-on-surface-variant">
-          ⌘K
-        </kbd>
       </button>
+
       <div className="ml-auto flex items-center gap-space-xs">
         {sync && <SyncChip {...sync} />}
         {notifications}
